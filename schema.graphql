@@ -1,13 +1,52 @@
 type Account @entity {
-  "Account address"
   id: ID!
-  balance: BigInt!
-  historicalBalances: [HistoricalBalance!] @derivedFrom(field: "account")
+  rmrkNfts: [RmrkNFT!] @derivedFrom(field: "currentOwner")
+  rmrkEvents: [RmrkEvent!] @derivedFrom(field: "caller")
 }
 
-type HistoricalBalance @entity {
+type RmrkNFT @entity {
+  symbol: String
+  transferable: Int
+  collection: String!
+  issuer: String
+  sn: String
   id: ID!
-  account: Account!
-  balance: BigInt!
-  timestamp: BigInt!
+  currentOwner: Account
+  price: BigInt! @index
+  burned: Boolean! @index
+  blockNumber: Int!
+  events: [RmrkEvent!] @derivedFrom(field: "nft")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  metadata: String
+  parent: RmrkNFT
+  children: [RmrkNFT!] @derivedFrom(field: "parent")
 }
+
+type RmrkStats @entity{
+  id: ID!
+  floor: BigInt
+  floorNft: String
+  volume: BigInt!
+  topSale: BigInt!
+}
+
+
+type RmrkEvent @entity {
+  id: ID!
+  blockNumber: Int!
+  timestamp: DateTime!
+  caller: Account!
+  info: BigInt # If list or buy
+  interaction: RmrkInteraction!
+  nft: RmrkNFT # if nft interaction
+}
+
+enum RmrkInteraction {
+  MINT
+  LIST
+  BUY
+  SEND
+  BURN
+}
+

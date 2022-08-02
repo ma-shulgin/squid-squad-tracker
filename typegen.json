@@ -5,6 +5,7 @@
     "Balances.Transfer"
   ],
   "calls": [ 
+    "System.remark"
   ],
   "storage": [
   ]

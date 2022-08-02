@@ -1,2 +1,5 @@
 export * from "./account.model"
-export * from "./historicalBalance.model"
+export * from "./rmrkNft.model"
+export * from "./rmrkStats.model"
+export * from "./rmrkEvent.model"
+export * from "./_rmrkInteraction"
